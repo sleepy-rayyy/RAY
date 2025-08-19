@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RELAPSE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Calculator -->
+  <div class="calculator" id="calculator">
+    <input type="text" id="display" disabled>
+
+    <div class="buttons">
+      <button onclick="clearDisplay()">C</button>
+      <button onclick="appendValue('/')">÷</button>
+      <button onclick="appendValue('*')">×</button>
+      <button onclick="backspace()">⌫</button>
+
+      <button onclick="appendValue('7')">7</button>
+      <button onclick="appendValue('8')">8</button>
+      <button onclick="appendValue('9')">9</button>
+      <button onclick="appendValue('-')">-</button>
+
+      <button onclick="appendValue('4')">4</button>
+      <button onclick="appendValue('5')">5</button>
+      <button onclick="appendValue('6')">6</button>
+      <button onclick="appendValue('+')">+</button>
+
+      <button onclick="appendValue('1')">1</button>
+      <button onclick="appendValue('2')">2</button>
+      <button onclick="appendValue('3')">3</button>
+      <button onclick="calculate()">=</button>
+
+      <button onclick="appendValue('0')" class="zero">0</button>
+      <button onclick="appendValue('.')">.</button>
+      <p>NAGING KAYO BA</p>
+    </div>
+  </div>
+
+  <!-- Video container for relpase video -->
+  <div class="video-container" id="videoContainer">
+    <video id="specialVideo"></video>
+  </div>
+
+  <script>
+    const display = document.getElementById("display");
+    const calculator = document.getElementById("calculator");
+    const videoContainer = document.getElementById("videoContainer");
+    const video = document.getElementById("specialVideo");
+
+    // Map expressions to specific videos for relpase eneme calculator
+    const videoMap = {
+      "9+1": "NAGING KAYO BA.mp4",
+      "10+1": "RAY MULTO.mp4",
+      "2+1": "nandito.mp4",
+      "12+1": "RELAPSE RAY.mp4"
+    };
+
+    function appendValue(val) {
+      display.value += val;
+    }
+
+    function clearDisplay() {
+      display.value = "";
+    }
+
+    function backspace() {
+      display.value = display.value.slice(0, -1);
+    }
+
+    function calculate() {
+      try {
+        const expression = display.value.replace(/\s+/g, '');
+        const result = eval(expression);
+        display.value = result;
+
+        if (videoMap[expression]) {
+          playSpecialVideo(videoMap[expression]);
+        }
+      } catch {
+        display.value = "Error";
+      }
+    }
+
+    function playSpecialVideo(src) {
+      calculator.style.display = "none";      // hide calculator
+      videoContainer.style.display = "flex";  // show video
+
+      video.src = src;                        // set correct video
+      video.currentTime = 0;
+      video.autoplay = true;
+      video.muted = false;                    // enable sound
+      video.play();
+
+      video.onended = () => {
+        videoContainer.style.display = "none";
+        calculator.style.display = "block";
+        clearDisplay();
+      };
+    }
+  </script>
+</body>
+</html>
