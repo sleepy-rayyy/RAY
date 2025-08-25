@@ -1,0 +1,124 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>What if?</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;    /* Create by Dordines */
+      /* Background updated to GitHub raw GIF */
+      background-color: #000;
+      background-image: url('https://raw.githubusercontent.com/Ray-needs-coffee/BG/main/BG.gif'); /* Create by Dordines */
+      background-repeat: repeat;
+      background-attachment: fixed;
+      display: flex;    /* Create by Dordines */
+      justify-content: center;        /* Create by Dordines */
+      align-items: center;    /* Create by Dordines */
+      height: 100vh;     /* Create by Dordines */
+      margin: 0;
+    }
+    p {
+      color: rgb(2, 2, 2);    /* Create by Dordines */
+      font-size: .9rem;
+      margin-top: 1px;     /* Create by Dordines */
+      text-align: right;
+      margin-bottom: 1px;
+      font-weight: bold;
+    }
+    iframe {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      z-index: -1; /* Behind all other content */
+    }
+    .question-box {
+      background: #92ceff;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 400px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #bb9040;
+      color: rgb(0, 0, 0);
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.2s;
+      text-align: center;
+    }
+    .options button:hover {
+      background: #dbe5ec;
+    }
+    .video-container {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      background: black;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    video {
+      width: 80%;
+      height: auto;
+      border-radius: 12px;
+    }  
+  </style>
+</head>
+<body>   
+  <div class="question-box" id="questionBox">    
+    <h2>What if may iba na siya?</h2>
+    <div class="options"> 
+      <button onclick="playVideo('A')">A. what if lang 😐</button>
+      <button onclick="playVideo('B')">B. nope 🙄</button>
+      <button onclick="playVideo('C')">C. aray ko 😢</button>  
+    </div>
+    <p>© Ray</p>
+  </div>
+        
+  <div class="video-container" id="videoContainer">        
+    <video id="videoPlayer" autoplay playsinline></video>      
+  </div>
+
+  <script>           // Create by DORDINES
+    const questionBox = document.getElementById("questionBox");          // Create by DORDINES
+    const videoContainer = document.getElementById("videoContainer");       // Create by DORDINES
+    const videoPlayer = document.getElementById("videoPlayer");    // Create by DORDINES
+
+    // links from Github RAY
+    const videoMap = {      // Create by DORDINES
+      "A": "https://github.com/Ray-needs-coffee/Videos/raw/main/What%20if%20habang%20kausap.mp4",  // Create by DORDINES
+      "B": "https://github.com/Ray-needs-coffee/Videos/raw/main/sure%20kaba_.mp4",  // Create by DORDINES
+      "C": "https://github.com/Ray-needs-coffee/Videos/raw/main/minumulto.mp4"    // Create by DORDINES
+    };
+    // Create by DORDINES
+    function playVideo(choice) {       
+      questionBox.style.display = "none";      // Create by DORDINES
+      videoContainer.style.display = "flex";  // Create by DORDINES
+      videoPlayer.src = videoMap[choice];    // Create by DORDINES
+      videoPlayer.play();    // Create by DORDINES
+
+      // When video ends → return to question can choose another letter (A,B and C) → video play
+      videoPlayer.onended = () => {
+        videoContainer.style.display = "none"; // Create by DORDINES
+        questionBox.style.display = "block";  // Create by DORDINES
+        videoPlayer.src = ""; // Create by DORDINES
+      };  // Create by DORDINES
+    }    // Create by DORDINES
+  </script>   
+</body>
+</html>
