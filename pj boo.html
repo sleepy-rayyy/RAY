@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Q&A for you</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .question-box {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 400px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #3498db;
+      color: white;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .options button:hover {
+      background: #2980b9;
+    }
+    .video-container {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      width: 100vw;
+      background: black;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+    video {
+      width: 80%;
+      height: auto;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="question-box" id="questionBox">
+    <h2>Best way to impress you would be?</h2>
+    <div class="options">
+      <button onclick="playVideo('A')">A. Pull up with flowers 🌹</button>
+      <button onclick="playVideo('B')">B. Late-night deep talks 🌌</button>
+      <button onclick="playVideo('C')">C. Random fun adventures 🎢</button>
+    </div>
+  </div>
+
+  <div class="video-container" id="videoContainer">
+    <video id="videoPlayer" autoplay playsinline></video>
+  </div>
+
+  <script>
+    const questionBox = document.getElementById("questionBox");
+    const videoContainer = document.getElementById("videoContainer");
+    const videoPlayer = document.getElementById("videoPlayer");
+
+    // links from Github RAY
+    const videoMap = {
+      "A": "https://github.com/Ray-needs-coffee/Videos/raw/main/power.mp4",
+      "B": "https://github.com/Ray-needs-coffee/Videos/raw/main/Talking%20to%20the%20moon%20.mp4",
+      "C": "https://github.com/Ray-needs-coffee/Videos/raw/main/Perfect%20.mp4"
+    };
+
+    function playVideo(choice) {
+      questionBox.style.display = "none";
+      videoContainer.style.display = "flex";
+      videoPlayer.src = videoMap[choice];
+      videoPlayer.play();
+
+      // When video ends → return to question after video ends 
+      videoPlayer.onended = () => {
+        videoContainer.style.display = "none";
+        questionBox.style.display = "block";
+        videoPlayer.src = "";
+      };
+    }
+  </script>
+</body>
+</html>
