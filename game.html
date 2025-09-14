@@ -34,6 +34,32 @@
 
     footer.small{font-size:12px;color:var(--muted);grid-column:1/-1;padding-top:6px}
 
+    /* Onscreen mobile controls */
+    .touch-controls {
+      position: absolute;
+      bottom: 12px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      z-index: 20;
+      user-select: none;
+    }
+    .touch-btn {
+      background: rgba(6,182,212,0.9);
+      border: none;
+      color: #01212a;
+      font-size: 28px;
+      font-weight: bold;
+      padding: 14px 26px;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .touch-btn:active {
+      background: rgba(3,105,161,0.95);
+    }
+
     @media (max-width:880px){.card{grid-template-columns:1fr;}.game-area canvas{height:360px}}
   </style>
 </head>
@@ -52,13 +78,18 @@
         <div class="game-area" id="gameArea">
           <canvas id="gameCanvas" width="640" height="480"></canvas>
 
+          <!-- Onscreen left/right buttons -->
+          <div class="touch-controls">
+            <button class="touch-btn" id="btnLeft">&lt;</button>
+            <button class="touch-btn" id="btnRight">&gt;</button>
+          </div>
+
           <div class="overlay" id="overlay" aria-hidden="true">
             <h2 id="goTitle">Game Over</h2>
             <p id="finalScore">Score: 0</p>
             <div class="controls" style="margin-top:12px">
               <button id="restartBtn">Restart</button>
             </div>
-            <p class="hint">Video will play in fullscreen. Press <strong>R</strong> to restart.</p>
           </div>
         </div>
       </div>
@@ -72,7 +103,7 @@
           <div style="margin-top:10px">
             <div style="font-size:13px;color:var(--muted)">How to play</div>
             <ul style="padding-left:18px;margin:6px 0;color:var(--muted);font-size:13px">
-              <li>Use ← and → keys or tap left/right halves to move.</li>
+              <li>Use ← and → keys or tap the buttons below to move.</li>
               <li>Dodge falling blocks — they get faster over time.</li>
               <li>Collision ends the run and triggers a fullscreen video.</li>
             </ul>
@@ -81,11 +112,10 @@
             <button id="startBtn">Start Game</button>
             <button class="secondary" id="pauseBtn">Pause</button>
           </div>
-          <div class="footer">Save as <code>dodge-runner.html</code> and open in browser.</div>
         </div>
       </aside>
 
-      <footer class="small">PWEDE BANG <code><strong>TAYO</strong> NALANG?</code></footer>
+      <footer class="small">Replace <code>sample-video.mp4</code> with your own video.</footer>
     </div>
   </div>
 
@@ -104,6 +134,7 @@
     const highScoreText=document.getElementById('highScoreText'),finalScore=document.getElementById('finalScore');
     const gameOverVideo=document.getElementById('gameOverVideo');
     const startBtn=document.getElementById('startBtn'),pauseBtn=document.getElementById('pauseBtn'),restartBtn=document.getElementById('restartBtn');
+    const btnLeft=document.getElementById('btnLeft'),btnRight=document.getElementById('btnRight');
 
     let w=canvas.width,h=canvas.height,keys={},pointerX=null;
     const player={x:w/2-18,y:h-64,w:36,h:36,speed:6};
@@ -133,6 +164,21 @@
     startBtn.addEventListener('click',()=>{resetGame();});
     pauseBtn.addEventListener('click',()=>{paused=!paused;pauseBtn.textContent=paused?'Resume':'Pause';});
     restartBtn.addEventListener('click',()=>{resetGame();});
+    
+    // Mobile onscreen buttons
+    let leftHeld=false,rightHeld=false;
+    btnLeft.addEventListener('touchstart',()=>{leftHeld=true;},{passive:true});
+    btnLeft.addEventListener('touchend',()=>{leftHeld=false;},{passive:true});
+    btnRight.addEventListener('touchstart',()=>{rightHeld=true;},{passive:true});
+    btnRight.addEventListener('touchend',()=>{rightHeld=false;},{passive:true});
+
+    function mobileControlUpdate(){
+      if(leftHeld) player.x-=player.speed;
+      if(rightHeld) player.x+=player.speed;
+      requestAnimationFrame(mobileControlUpdate);
+    }
+    mobileControlUpdate();
+
     loop();running=false;overlay.classList.remove('show');
     canvas.addEventListener('touchstart',()=>{if(!running)resetGame();},{passive:true});
   </script>
