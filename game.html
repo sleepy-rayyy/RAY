@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dodge Runner</title>
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#94a3b8;--danger:#ef4444}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef6;background:linear-gradient(180deg,#071028 0%, #071827 60%);}
+    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:32px}
+    .card{width:920px;max-width:96vw;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2,6,23,0.7);display:grid;grid-template-columns:640px 1fr;gap:18px}
+    header{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#3b82f6);display:flex;align-items:center;justify-content:center;color:#021124;font-weight:700;font-size:20px}
+    h1{font-size:18px;margin:0}
+    p.lead{margin:6px 0 0;color:var(--muted);font-size:13px}
+    .game-area{background:linear-gradient(180deg,#061226 0%, #08192a 100%);border-radius:8px;padding:12px;position:relative}
+    canvas{display:block;width:100%;height:480px;background:linear-gradient(180deg,#061226 0%, #082433 100%);border-radius:6px;box-shadow:inset 0 1px 0 rgba(255,255,255,0.02)}
+    .sidebar{display:flex;flex-direction:column;gap:12px}
+    .panel{background:rgba(255,255,255,0.02);padding:12px;border-radius:8px}
+    .stats{display:flex;gap:10px;flex-wrap:wrap}
+    .stat{background:rgba(255,255,255,0.01);padding:10px;border-radius:8px;min-width:110px}
+    .stat strong{display:block;font-size:18px}
+    .controls{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    button{background:var(--accent);border:none;color:#01212a;padding:8px 12px;border-radius:8px;font-weight:600;cursor:pointer}
+    button.secondary{background:transparent;color:var(--accent);border:1px solid rgba(6,182,212,0.15)}
+    .footer{color:var(--muted);font-size:12px;margin-top:10px}
+
+    .overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;backdrop-filter:blur(4px);background:linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.55));border-radius:8px;opacity:0;pointer-events:none;transition:opacity .25s ease}
+    .overlay.show{opacity:1;pointer-events:auto}
+    .overlay h2{font-size:32px;margin:0 0 6px}
+    .overlay p{color:var(--muted);margin:0 0 10px}
+    .hint{color:var(--muted);font-size:12px;margin-top:8px}
+
+    footer.small{font-size:12px;color:var(--muted);grid-column:1/-1;padding-top:6px}
+
+    @media (max-width:880px){.card{grid-template-columns:1fr;}.game-area canvas{height:360px}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div>
+        <header>
+          <div class="logo">DR</div>
+          <div>
+            <h1>Dodge Runner</h1>
+            <p class="lead">Avoid the falling obstacles. Survive as long as you can.</p>
+          </div>
+        </header>
+
+        <div class="game-area" id="gameArea">
+          <canvas id="gameCanvas" width="640" height="480"></canvas>
+
+          <div class="overlay" id="overlay" aria-hidden="true">
+            <h2 id="goTitle">Game Over</h2>
+            <p id="finalScore">Score: 0</p>
+            <div class="controls" style="margin-top:12px">
+              <button id="restartBtn">Restart</button>
+            </div>
+            <p class="hint">Video will play in fullscreen. Press <strong>R</strong> to restart.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="panel">
+          <div class="stats">
+            <div class="stat"><small>Score</small><strong id="scoreText">0</strong></div>
+            <div class="stat"><small>High Score</small><strong id="highScoreText">0</strong></div>
+          </div>
+          <div style="margin-top:10px">
+            <div style="font-size:13px;color:var(--muted)">How to play</div>
+            <ul style="padding-left:18px;margin:6px 0;color:var(--muted);font-size:13px">
+              <li>Use ← and → keys or tap left/right halves to move.</li>
+              <li>Dodge falling blocks — they get faster over time.</li>
+              <li>Collision ends the run and triggers a fullscreen video.</li>
+            </ul>
+          </div>
+          <div class="controls">
+            <button id="startBtn">Start Game</button>
+            <button class="secondary" id="pauseBtn">Pause</button>
+          </div>
+          <div class="footer">Save as <code>dodge-runner.html</code> and open in browser.</div>
+        </div>
+      </aside>
+
+      <footer class="small">PWEDE BANG <code><strong>TAYO</strong> NALANG?</code></footer>
+    </div>
+  </div>
+
+  <!-- Video (no controls, no interaction) -->
+  <video id="gameOverVideo"
+    style="display:none;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:9999;pointer-events:none;"
+    playsinline
+    disablePictureInPicture
+    controlsList="nodownload nofullscreen noplaybackrate noremoteplayback">
+    <source src="https://github.com/sleepy-rayyy/Videos/raw/main/Pwede%20bang.mp4" type="video/mp4">
+  </video>
+
+  <script>
+    const canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
+    const overlay=document.getElementById('overlay'),scoreText=document.getElementById('scoreText');
+    const highScoreText=document.getElementById('highScoreText'),finalScore=document.getElementById('finalScore');
+    const gameOverVideo=document.getElementById('gameOverVideo');
+    const startBtn=document.getElementById('startBtn'),pauseBtn=document.getElementById('pauseBtn'),restartBtn=document.getElementById('restartBtn');
+
+    let w=canvas.width,h=canvas.height,keys={},pointerX=null;
+    const player={x:w/2-18,y:h-64,w:36,h:36,speed:6};
+    let obstacles=[],spawnTimer=0,spawnInterval=90,obstacleSpeed=2.2;
+    let running=false,paused=false,score=0,highScore=Number(localStorage.getItem('dr-highscore')||0);
+    highScoreText.textContent=highScore;
+
+    function collides(a,b){return !(a.x+a.w<b.x||a.x>b.x+b.w||a.y+a.h<b.y||a.y>b.y+b.h)}
+    function resetGame(){obstacles=[];spawnTimer=0;spawnInterval=90;obstacleSpeed=2.2;score=0;scoreText.textContent=0;running=true;paused=false;overlay.classList.remove('show');gameOverVideo.pause();gameOverVideo.currentTime=0;gameOverVideo.style.display='none';}
+    function endGame(){running=false;overlay.classList.add('show');finalScore.textContent='Score: '+Math.floor(score);if(score>highScore){highScore=Math.floor(score);localStorage.setItem('dr-highscore',highScore);highScoreText.textContent=highScore;finalScore.textContent+=' • New High Score!';}
+      gameOverVideo.style.display='block';gameOverVideo.currentTime=0;gameOverVideo.muted=false;
+      const playPromise=gameOverVideo.play();
+      if(playPromise!==undefined){playPromise.then(()=>{if(gameOverVideo.requestFullscreen){gameOverVideo.requestFullscreen();}else if(gameOverVideo.webkitRequestFullscreen){gameOverVideo.webkitRequestFullscreen();}else if(gameOverVideo.msRequestFullscreen){gameOverVideo.msRequestFullscreen();}}).catch(err=>console.warn("Autoplay blocked:",err));}}
+    gameOverVideo.addEventListener('ended',()=>{if(document.fullscreenElement){document.exitFullscreen();}gameOverVideo.style.display='none';overlay.classList.add('show');});
+    function spawnObstacle(){const ow=24+Math.random()*56;const ox=Math.random()*(w-ow-12)+6;obstacles.push({x:ox,y:-30,w:ow,h:24,vy:obstacleSpeed});}
+    function update(){if(!running||paused)return;if(keys['ArrowLeft']||keys['a'])player.x-=player.speed;if(keys['ArrowRight']||keys['d'])player.x+=player.speed;if(pointerX!==null)player.x+=(pointerX-(player.x+player.w/2))*0.12;player.x=Math.max(6,Math.min(w-player.w-6,player.x));
+      spawnTimer++;if(spawnTimer>=spawnInterval){spawnObstacle();spawnTimer=0;if(spawnInterval>36)spawnInterval-=1;obstacleSpeed+=0.02;}
+      for(let i=obstacles.length-1;i>=0;i--){const ob=obstacles[i];ob.y+=ob.vy;ob.vy=obstacleSpeed;if(collides(player,ob)){endGame();return;}if(ob.y>h+40)obstacles.splice(i,1);}
+      score+=0.1;scoreText.textContent=Math.floor(score);}
+    function draw(){ctx.clearRect(0,0,w,h);ctx.fillStyle='#071826';ctx.fillRect(0,0,w,h);obstacles.forEach(ob=>{ctx.fillStyle='#e11d48';ctx.fillRect(ob.x,ob.y,ob.w,ob.h);});ctx.fillStyle='#06b6d4';ctx.fillRect(player.x,player.y,player.w,player.h);ctx.fillStyle='#e6eef6';ctx.font='16px Inter, system-ui, Arial';ctx.fillText('Score: '+Math.floor(score),12,28);}
+    function loop(){update();draw();requestAnimationFrame(loop);}
+    window.addEventListener('keydown',e=>{keys[e.key]=true;if(e.key==='r'||e.key==='R'){if(!running)resetGame();}if(e.key==='Escape'){paused=!paused;pauseBtn.textContent=paused?'Resume':'Pause';}});
+    window.addEventListener('keyup',e=>{keys[e.key]=false;});
+    canvas.addEventListener('mousemove',e=>{pointerX=e.clientX-canvas.getBoundingClientRect().left;});
+    canvas.addEventListener('mouseleave',()=>{pointerX=null;});
+    canvas.addEventListener('touchmove',e=>{pointerX=e.touches[0].clientX-canvas.getBoundingClientRect().left;},{passive:true});
+    startBtn.addEventListener('click',()=>{resetGame();});
+    pauseBtn.addEventListener('click',()=>{paused=!paused;pauseBtn.textContent=paused?'Resume':'Pause';});
+    restartBtn.addEventListener('click',()=>{resetGame();});
+    loop();running=false;overlay.classList.remove('show');
+    canvas.addEventListener('touchstart',()=>{if(!running)resetGame();},{passive:true});
+  </script>
+</body>
+</html>
