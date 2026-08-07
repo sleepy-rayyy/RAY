@@ -1,124 +1,239 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>What if?</title>
-  <style>
-    body { /* Body style */
-      font-family: Arial, sans-serif;    /* Create by Dordines */
-      /* Background updated to GitHub raw GIF */
-      background-color: #000;
-      background-image: url('https://raw.githubusercontent.com/Ray-needs-coffee/BG/main/BG.gif'); /* Create by Dordines */
-      background-repeat: repeat;
-      background-attachment: fixed;
-      display: flex;    /* Create by Dordines */
-      justify-content: center;        /* Create by Dordines */
-      align-items: center;    /* Create by Dordines */
-      height: 100vh;     /* Create by Dordines */
-      margin: 0;
-    }
-    p {
-      color: rgb(2, 2, 2);    /* Create by Dordines */
-      font-size: .9rem;
-      margin-top: 1px;     /* Create by Dordines */
-      text-align: right;
-      margin-bottom: 1px;
-      font-weight: bold;
-    }
-    iframe {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      z-index: -1; /* Behind all other content */
-    }
-    .question-box {
-      background: #92ceff;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      text-align: center;
-      width: 400px;
-    }
-    h2 {
-      margin-bottom: 20px;
-    }
-    .options button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 12px;
-      font-size: 1.1rem;
-      border: none;
-      border-radius: 8px;
-      background: #bb9040;
-      color: rgb(0, 0, 0);
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.2s;
-      text-align: center;
-    }
-    .options button:hover {
-      background: #dbe5ec;
-    }
-    .video-container {
-      display: none;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      width: 100vw;
-      background: black;
-      position: fixed;
-      top: 0;
-      left: 0;
-    }
-    video {
-      width: 80%;
-      height: auto;
-      border-radius: 12px;
-    }  
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of Cryptography</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
-<body>   
-  <div class="question-box" id="questionBox">    
-    <h2>What if may iba na siya?</h2>
-    <div class="options"> 
-      <button onclick="playVideo('A')">A. what if lang 😐</button>
-      <button onclick="playVideo('B')">B. nope 🙄</button>
-      <button onclick="playVideo('C')">C. aray ko 😢</button>  
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
     </div>
-    <p>© Ray</p>
-  </div>
+
+    <div class="presentation-container">
         
-  <div class="video-container" id="videoContainer">        
-    <video id="videoPlayer" autoplay playsinline></video>      
-  </div>
+        <div class="slide active">
+            <div class="card glass intro-card">
+                <div class="intro-text">
+                    <h1 class="title-glow">Types of Cryptography</h1>
+                    <h3>Recognizing, Understanding, and Applying Cryptography</h3>
+                    <div class="floating-icons">🔒 🔑 🛡️ ✨</div>
+                </div>
+                <div class="intro-image">
+                    <img src="https://raw.githubusercontent.com/sleepy-rayyy/RAY/main/borres.jpeg" alt="Intro Image Placeholder" class="media-placeholder">
+                </div>
+            </div>
+        </div>
 
-  <script>           // Create by DORDINES
-    const questionBox = document.getElementById("questionBox");          // Create by DORDINES
-    const videoContainer = document.getElementById("videoContainer");       // Create by DORDINES
-    const videoPlayer = document.getElementById("videoPlayer");    // Create by DORDINES
+        <div class="slide">
+            <div class="card glass">
+                <h2>Learning Objectives</h2>
+                <ul class="bullet-list">
+                    <li>🎯 Recognize the different types of cryptography.</li>
+                    <li>🛠️ Employ the essentials of cryptography.</li>
+                    <li>🛡️ Promote the adoption of cryptography best practices to enhance security.</li>
+                </ul>
+            </div>
+        </div>
 
-    // links from Github RAY
-    const videoMap = {      // Create by DORDINES
-      "A": "https://github.com/Ray-needs-coffee/Videos/raw/main/What%20if%20habang%20kausap.mp4",  // Create by DORDINES
-      "B": "https://github.com/Ray-needs-coffee/Videos/raw/main/sure%20kaba_.mp4",  // Create by DORDINES
-      "C": "https://github.com/Ray-needs-coffee/Videos/raw/main/minumulto.mp4"    // Create by DORDINES
-    };
-    // Create by DORDINES
-    function playVideo(choice) {       
-      questionBox.style.display = "none";      // Create by DORDINES
-      videoContainer.style.display = "flex";  // Create by DORDINES
-      videoPlayer.src = videoMap[choice];    // Create by DORDINES
-      videoPlayer.play();    // Create by DORDINES
+        <div class="slide">
+            <div class="card glass">
+                <h2>What is Cryptography?</h2>
+                <p>Cryptography is the practice of protecting information by converting it into unreadable data.</p>
+                <p>It ensures that only authorized users with the correct key can understand the original message.</p>
+                <div class="animation-box">Readable Data ➔ 🔒 ➔ Unreadable Data</div>
+            </div>
+        </div>
 
-      // When video ends → return to question can choose another letter (A,B and C) → video play
-      videoPlayer.onended = () => {
-        videoContainer.style.display = "none"; // Create by DORDINES
-        questionBox.style.display = "block";  // Create by DORDINES
-        videoPlayer.src = ""; // Create by DORDINES
-      };  // Create by DORDINES
-    }    // Create by DORDINES
-  </script>   
+        <div class="slide">
+            <div class="card glass">
+                <h2>Types of Cryptography</h2>
+                <div class="grid-3">
+                    <div class="mini-card">
+                        <h3>🔑 Symmetric</h3>
+                        <p>One shared key.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h3>🔐 Asymmetric</h3>
+                        <p>Public & Private keys.</p>
+                    </div>
+                    <div class="mini-card">
+                        <h3>#️⃣ Hash Functions</h3>
+                        <p>One-way encryption.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Symmetric Cryptography</h2>
+                <ul class="bullet-list">
+                    <li><strong>Definition:</strong> Uses a single shared key to both encrypt and decrypt data.</li>
+                    <li><strong>Advantages:</strong> Fast and efficient for large amounts of data.</li>
+                    <li><strong>Disadvantages:</strong> Securely sharing the key can be difficult.</li>
+                    <li><strong>Examples:</strong> AES, DES.</li>
+                    <li><strong>Real-Life:</strong> Encrypting files before storing them.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Asymmetric Cryptography</h2>
+                <ul class="bullet-list">
+                    <li><strong>Definition:</strong> Uses a mathematically linked key pair.</li>
+                    <li><strong>Keys:</strong> Public Key (encrypts) & Private Key (decrypts).</li>
+                    <li><strong>Advantages:</strong> Extremely secure, no need to share a secret key.</li>
+                    <li><strong>Disadvantages:</strong> Slower than symmetric encryption.</li>
+                    <li><strong>Examples:</strong> RSA, ECC.</li>
+                    <li><strong>Real-Life:</strong> Secure websites (HTTPS).</li>
+                </ul>
+                <div class="animation-box">Public Key ➔ Encrypt ➔ 🔒 ➔ Private Key ➔ Decrypt</div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Hash Functions</h2>
+                <ul class="bullet-list">
+                    <li><strong>Definition:</strong> Converts data of any size into a fixed-size string of characters.</li>
+                    <li><strong>One-Way:</strong> It is designed to be impossible to reverse or decrypt.</li>
+                    <li><strong>Examples:</strong> SHA-256, SHA-3.</li>
+                    <li><strong>Real-Life:</strong> Secure password storage and verifying file integrity.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Comparison Summary</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Keys Used</th>
+                            <th>Reversible?</th>
+                            <th>Speed</th>
+                            <th>Common Uses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Symmetric</td>
+                            <td>1 (Shared)</td>
+                            <td>Yes</td>
+                            <td>Fast</td>
+                            <td>File/Disk encryption</td>
+                        </tr>
+                        <tr>
+                            <td>Asymmetric</td>
+                            <td>2 (Public/Private)</td>
+                            <td>Yes</td>
+                            <td>Slow</td>
+                            <td>Digital signatures, HTTPS</td>
+                        </tr>
+                        <tr>
+                            <td>Hashing</td>
+                            <td>None</td>
+                            <td>No</td>
+                            <td>Very Fast</td>
+                            <td>Password storage</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Best Practices Checklist</h2>
+                <ul class="checklist">
+                    <li>✅ Use strong, unique passwords</li>
+                    <li>✅ Enable Multi-Factor Authentication (MFA)</li>
+                    <li>✅ Keep software and systems updated</li>
+                    <li>✅ Never share private keys</li>
+                    <li>✅ Always use HTTPS websites</li>
+                    <li>✅ Backup encrypted data safely</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Everyday Examples</h2>
+                <div class="grid-3">
+                    <div class="mini-card">🏦 Online Banking</div>
+                    <div class="mini-card">💬 Messaging Apps</div>
+                    <div class="mini-card">📧 Email Encryption</div>
+                    <div class="mini-card">📶 Wi-Fi Security</div>
+                    <div class="mini-card">📝 Digital Signatures</div>
+                    <div class="mini-card">🛒 Secure Shopping</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Meme Break 😂</h2>
+                <h3>Cryptography Be Like...</h3>
+                
+                <div class="custom-video-wrapper">
+                    <video id="meme-video" src="https://raw.githubusercontent.com/sleepy-rayyy/RAY/main/wha.mp4" preload="none"></video>
+                    </div>
+                <p class="caption">"When you finally remember your password but it's encrypted."</p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <div class="card glass">
+                <h2>Summary</h2>
+                <ul class="bullet-list">
+                    <li>🛡️ Cryptography is essential for protecting sensitive information.</li>
+                    <li>🔑 <strong>Symmetric:</strong> Fast, single shared key.</li>
+                    <li>🔐 <strong>Asymmetric:</strong> Highly secure, public/private key pair.</li>
+                    <li>#️⃣ <strong>Hashing:</strong> One-way data validation.</li>
+                    <li>✅ Following best practices dramatically improves cybersecurity.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="slide fullscreen-video-slide">
+            <video id="ending-video" autoplay loop preload="none">
+                <source src="https://raw.githubusercontent.com/sleepy-rayyy/RAY/main/rizzz.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="slide">
+            <div class="card glass thank-you-card">
+                <div class="floating-icons-container">
+                    <span class="float-icon">🔒</span>
+                    <span class="float-icon">💖</span>
+                    <span class="float-icon">🛡️</span>
+                    <span class="float-icon">✨</span>
+                    <span class="float-icon">🔑</span>
+                    <span class="float-icon">💖</span>
+                    <span class="float-icon">✨</span>
+                </div>
+                <h1 class="title-glow pulse-text">THANK YOU! 💖</h1>
+                <h2>Any Questions?</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changeSlide(-1)">❮ Prev</button>
+        <span id="slideCounter">1 / 14</span>
+        <button id="nextBtn" onclick="changeSlide(1)">Next ❯</button>
+    </div>
+
+    <audio id="transition-sound" src="https://raw.githubusercontent.com/sleepy-rayyy/RAY/main/fah.mp3"></audio>
+
+    <script src="script.js"></script>
 </body>
 </html>
