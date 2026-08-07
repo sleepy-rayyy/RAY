@@ -1,0 +1,893 @@
+:root {
+    --primary: #FF4FA3;
+    --secondary: #FF85C1; 
+    --accent: #FFC1E3; 
+    --bg-color: #FFF5FA; 
+    --text-color: #3B2A3D; 
+    --card-bg: rgba(255, 255, 255, 0.45); 
+    --highlight: #FF69B4; 
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+    font-family: 'Poppins', 'Inter', sans-serif;
+    color: var(--text-color);
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: relative;
+    background: 
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150"><text x="20" y="40" font-size="24" opacity="0.15">🌸</text><text x="100" y="110" font-size="18" opacity="0.1">🌺</text><text x="70" y="70" font-size="14" opacity="0.08">✨</text></svg>'),
+        linear-gradient(-45deg, #FFF5FA, #FFC1E3, #FF85C1, #FFF5FA);
+    background-size: 150px 150px, 400% 400%;
+    animation: gradientBG 12s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%, 0% 50%; }
+    50% { background-position: 0% 50%, 100% 50%; }
+    100% { background-position: 0% 50%, 0% 50%; }
+}
+
+
+body::before, body::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: -1;
+    animation: floatOrbs 10s ease-in-out infinite alternate;
+}
+
+body::before {
+    width: 400px;
+    height: 400px;
+    background: rgba(255, 79, 163, 0.3);
+    top: -100px;
+    left: -100px;
+}
+
+body::after {
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 193, 227, 0.5);
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+@keyframes floatOrbs {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(50px) scale(1.1); }
+}
+
+
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 193, 227, 0.3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    backdrop-filter: blur(5px);
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    width: 0%;
+    transition: width 0.4s ease;
+    box-shadow: 0 0 10px rgba(255, 79, 163, 0.6);
+}
+
+
+.presentation-container {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1; 
+}
+
+
+.slide {
+    position: absolute;
+    width: 90%;
+    max-width: 1000px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.92) translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                visibility 0.6s;
+}
+
+.slide.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+}
+
+
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
+    border-radius: 24px;
+    padding: 3.5rem;
+    box-shadow: 
+        0 15px 35px rgba(255, 79, 163, 0.1),
+        inset 0 0 15px rgba(255, 255, 255, 0.5);
+    text-align: center;
+}
+
+.intro-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    text-align: left;
+}
+
+.intro-text { flex: 1; }
+.intro-image { flex: 1; display: flex; justify-content: center; }
+
+
+h1 { font-size: 3.5rem; color: var(--primary); margin-bottom: 1rem; text-shadow: 0 0 15px rgba(255, 79, 163, 0.5); }
+h2 { font-size: 2.5rem; color: var(--secondary); margin-bottom: 1.5rem; }
+p, li { font-size: 1.2rem; line-height: 1.6; margin-bottom: 1rem; }
+
+.bullet-list, .checklist { text-align: left; display: inline-block; list-style-type: none; }
+.bullet-list li, .checklist li { margin-bottom: 0.8rem; padding-left: 1rem; }
+
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.mini-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mini-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(255, 79, 163, 0.3);
+    border-color: var(--secondary);
+}
+
+.animation-box {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 193, 227, 0.4);
+    border-radius: 10px;
+    font-weight: bold;
+    display: inline-block;
+    border: 1px dashed var(--primary);
+}
+
+.media-placeholder { width: 100%; max-width: 600px; height: auto; border-radius: 12px; border: 2px dashed var(--secondary); margin: 1rem 0; }
+.caption { font-style: italic; color: #666; }
+
+
+table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; background: rgba(255, 255, 255, 0.8); border-radius: 10px; overflow: hidden; }
+th, td { padding: 1rem; border-bottom: 1px solid var(--accent); text-align: left; }
+th { background: var(--primary); color: white; }
+tr:nth-child(even) { background-color: var(--bg-color); }
+tr:hover { background-color: var(--accent); transition: background-color 0.3s ease; }
+
+
+.custom-video-wrapper {
+    position: relative; width: 100%; max-width: 700px; margin: 1.5rem auto; border-radius: 16px;
+    overflow: hidden; border: 3px solid var(--primary); box-shadow: 0 15px 35px rgba(255, 79, 163, 0.4); background: #000;
+}
+#meme-video { width: 100%; display: block; }
+.custom-controls {
+    display: flex; align-items: center; background: rgba(59, 42, 61, 0.75); backdrop-filter: blur(8px);
+    padding: 10px 15px; gap: 15px; position: absolute; bottom: 0; width: 100%; transition: opacity 0.3s ease;
+}
+.custom-controls button {
+    background: none; border: none; color: var(--primary); font-size: 1.5rem; cursor: pointer;
+    padding: 5px; box-shadow: none; transition: color 0.3s, transform 0.2s;
+}
+.custom-controls button:hover { color: var(--highlight); transform: scale(1.15); background: transparent; }
+#seek-bar { flex-grow: 1; accent-color: var(--primary); cursor: pointer; height: 6px; }
+
+
+.fullscreen-video-slide {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    border-radius: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+    padding: 0;
+    z-index: 999; /* Forces the slide above all background animations */
+}
+
+.fullscreen-video-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Forces GPU Hardware Acceleration */
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.thank-you-card { position: relative; overflow: hidden; padding-bottom: 2rem; min-height: 400px; display: flex; flex-direction: column; justify-content: center; }
+
+.pulse-text { animation: pulseText 2s ease-in-out infinite alternate; }
+@keyframes pulseText {
+    0% { text-shadow: 0 0 10px rgba(255, 79, 163, 0.5); transform: scale(1); }
+    100% { text-shadow: 0 0 25px rgba(255, 79, 163, 1), 0 0 40px rgba(255, 193, 227, 0.8); transform: scale(1.05); }
+}
+
+.floating-icons-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; }
+.float-icon { position: absolute; bottom: -50px; opacity: 0; animation: floatUp 7s linear infinite; }
+.float-icon:nth-child(1) { left: 10%; animation-delay: 0s; font-size: 2.5rem; }
+.float-icon:nth-child(2) { left: 25%; animation-delay: 2s; font-size: 3rem; }
+.float-icon:nth-child(3) { left: 45%; animation-delay: 4s; font-size: 2.2rem; }
+.float-icon:nth-child(4) { left: 65%; animation-delay: 1s; font-size: 1.8rem; }
+.float-icon:nth-child(5) { left: 80%; animation-delay: 3s; font-size: 2.8rem; }
+.float-icon:nth-child(6) { left: 90%; animation-delay: 5s; font-size: 2.4rem; }
+.float-icon:nth-child(7) { left: 5%;  animation-delay: 6s; font-size: 2rem; }
+
+@keyframes floatUp {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.6; }
+    100% { transform: translateY(-400px) rotate(360deg); opacity: 0; }
+}
+
+
+.controls {
+    position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; align-items: center;
+    gap: 1.5rem; background: rgba(255, 255, 255, 0.9); padding: 10px 20px; border-radius: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 10;
+}
+button { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: 600; transition: background 0.3s, transform 0.2s; }
+button:hover { background: var(--highlight); transform: scale(1.05); }
+button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
+#slideCounter { font-weight: bold; color: var(--text-color); }
+/* =========================================
+   Slide 9: Best Practices Grid Styles 
+   ========================================= */
+
+.best-practices-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.practice-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+/* Adds a solid pink bar on the left side of each card */
+.practice-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.4s ease, opacity 0.4s ease;
+    z-index: 0;
+}
+
+/* Hover Physics: Lift, glow, and color sweep */
+.practice-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(255, 79, 163, 0.25);
+    border-color: var(--primary);
+}
+
+.practice-card:hover::before {
+    width: 100%;
+    opacity: 0.15; /* Soft pink overlay inside the card on hover */
+}
+
+/* Icon Container */
+.check-icon {
+    font-size: 1.6rem;
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 0 0 12px rgba(255, 79, 163, 0.4);
+    transition: transform 0.3s ease;
+}
+
+.practice-card:hover .check-icon {
+    transform: scale(1.1) rotate(10deg);
+}
+
+/* Text Styling */
+.practice-card p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-color);
+    z-index: 1;
+    font-size: 1.15rem;
+    text-align: left;
+    line-height: 1.4;
+}
+/* =========================================
+   Slide 2: Learning Objectives Grid Styles 
+   ========================================= */
+
+.objectives-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.objective-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.2rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Adds a solid pink bar on the TOP of each objective card */
+.objective-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: var(--primary);
+    transition: height 0.4s ease, opacity 0.4s ease;
+    z-index: 0;
+}
+
+/* Hover Physics: Lift, glow, and color sweep down */
+.objective-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(255, 79, 163, 0.25);
+    border-color: var(--primary);
+}
+
+.objective-card:hover::before {
+    height: 100%;
+    opacity: 0.1; /* Soft pink overlay sweeps down on hover */
+}
+
+/* Large Icon Container */
+.objective-icon {
+    font-size: 2.2rem;
+    background: white;
+    border: 3px solid var(--primary);
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    box-shadow: 0 0 15px rgba(255, 79, 163, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.objective-card:hover .objective-icon {
+    transform: scale(1.15) rotate(10deg);
+}
+
+/* Text Styling */
+.objective-card p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-color);
+    z-index: 1;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+/* =========================================
+   Slide 3: What is Cryptography Flow Diagram
+   ========================================= */
+
+.crypto-flow-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows it to stack on mobile */
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: inset 0 0 20px rgba(255, 79, 163, 0.05);
+}
+
+.flow-box {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1.5rem 1rem;
+    border-radius: 15px;
+    border: 2px solid var(--accent);
+    text-align: center;
+    width: 170px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Middle box gets a special pink highlight */
+.encryption-box {
+    background: rgba(255, 79, 163, 0.1);
+    border-color: var(--primary);
+    box-shadow: 0 10px 25px rgba(255, 79, 163, 0.2);
+}
+
+.flow-box:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(255, 79, 163, 0.3);
+    border-color: var(--primary);
+}
+
+.flow-emoji {
+    font-size: 2.8rem;
+    display: block;
+    margin-bottom: 0.8rem;
+}
+
+.flow-box p {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-color);
+    line-height: 1.3;
+}
+
+/* Pulsing Arrow Animation */
+.flow-arrow-container {
+    font-size: 2.5rem;
+    color: var(--primary);
+    animation: arrowPulse 1.5s infinite alternate ease-in-out;
+}
+
+@keyframes arrowPulse {
+    0% { transform: translateX(-5px); opacity: 0.5; }
+    100% { transform: translateX(5px); opacity: 1; text-shadow: 0 0 15px var(--primary); }
+}
+
+/* Glowing Lock Animation */
+.lock-pulse {
+    animation: lockGlow 2s infinite alternate ease-in-out;
+}
+
+@keyframes lockGlow {
+    0% { transform: scale(1); text-shadow: 0 0 5px var(--primary); }
+    100% { transform: scale(1.15); text-shadow: 0 0 25px var(--highlight); }
+}
+/* =========================================
+   Slide 5: Symmetric Cryptography Styles 
+   ========================================= */
+
+.symmetric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+    margin-top: 1.5rem;
+}
+
+.info-card.full-width {
+    grid-column: span 2;
+}
+
+.info-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    text-align: left;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 79, 163, 0.2);
+    border-color: var(--primary);
+}
+
+.info-icon {
+    font-size: 1.8rem;
+    background: white;
+    border-radius: 50%;
+    width: 55px;
+    height: 55px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(255, 79, 163, 0.15);
+    border: 1px solid var(--accent);
+}
+
+.info-text h4 {
+    margin: 0 0 0.3rem 0;
+    color: var(--primary);
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-text p {
+    margin: 0;
+    font-size: 1.05rem;
+    color: var(--text-color);
+    line-height: 1.4;
+}
+
+/* Ensure it stacks cleanly on smaller screens */
+@media (max-width: 600px) {
+    .symmetric-grid {
+        grid-template-columns: 1fr;
+    }
+    .info-card.full-width {
+        grid-column: span 1;
+    }
+}
+/* =========================================
+   Slide 6: Compact Flow Diagram Styles
+   ========================================= */
+
+/* Shrinks the glowing flow diagram so it fits under the grid */
+.compact-flow {
+    margin-top: 1rem;
+    padding: 1rem;
+    gap: 0.6rem;
+}
+
+.compact-flow .flow-box {
+    width: 115px; /* Smaller boxes */
+    padding: 0.8rem 0.5rem;
+}
+
+.compact-flow .flow-emoji {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.compact-flow p {
+    font-size: 0.85rem;
+}
+
+.compact-flow .flow-arrow-container {
+    font-size: 1.5rem;
+}
+/* =========================================
+   Slide 12: Summary List Styles 
+   ========================================= */
+
+.summary-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.summary-item {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+/* Solid pink bar on the left edge */
+.summary-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.4s ease, opacity 0.4s ease;
+    z-index: 0;
+}
+
+/* Hover Physics: Slide right, glow, and color sweep */
+.summary-item:hover {
+    transform: translateX(10px); /* Slides to the right */
+    box-shadow: -5px 10px 25px rgba(255, 79, 163, 0.2);
+    border-color: var(--primary);
+}
+
+.summary-item:hover::before {
+    width: 100%;
+    opacity: 0.1; /* Soft pink overlay */
+}
+
+/* Icon Container */
+.summary-icon {
+    font-size: 1.6rem;
+    background: white;
+    border: 2px solid var(--primary);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 0 0 10px rgba(255, 79, 163, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.summary-item:hover .summary-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* Text Styling */
+.summary-item p {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    z-index: 1;
+    line-height: 1.4;
+}
+
+.summary-item strong {
+    color: var(--primary);
+}
+/* =========================================
+   Slide 10: Everyday Examples Grid Styles 
+   ========================================= */
+
+.examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.example-card {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--accent);
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+}
+
+/* Hidden soft glowing circle behind the icon */
+.example-card::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: var(--primary);
+    border-radius: 50%;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.4s ease;
+    z-index: 0;
+    filter: blur(25px);
+}
+
+/* Hover Physics: Lift, magnify, and ignite the glow */
+.example-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 30px rgba(255, 79, 163, 0.25);
+    border-color: var(--primary);
+}
+
+.example-card:hover::after {
+    opacity: 0.35;
+    top: 35%;
+}
+
+/* Icon Container */
+.example-icon {
+    font-size: 2.5rem;
+    z-index: 1;
+    transition: transform 0.3s ease;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.example-card:hover .example-icon {
+    transform: scale(1.2) translateY(-5px);
+}
+
+/* Text Styling */
+.example-card p {
+    margin: 0;
+    font-weight: 600;
+    color: var(--text-color);
+    z-index: 1;
+    font-size: 1.1rem;
+}
+/* =========================================
+   Slide 8: Aesthetic Table Styles 
+   ========================================= */
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    margin-top: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(255, 79, 163, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.aesthetic-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* Header Styling */
+.aesthetic-table th {
+    background: var(--primary);
+    color: white;
+    padding: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 3px solid var(--highlight);
+}
+
+.aesthetic-table td {
+    padding: 1.2rem;
+    border-bottom: 1px solid rgba(255, 193, 227, 0.6);
+    color: var(--text-color);
+    font-size: 1.05rem;
+}
+
+/* Hover Physics for Rows */
+.aesthetic-table tbody tr {
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), background 0.3s ease;
+    cursor: default;
+}
+
+.aesthetic-table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: scale(1.02);
+    box-shadow: 0 10px 25px rgba(255, 79, 163, 0.2);
+}
+
+.aesthetic-table tbody tr:hover td {
+    color: var(--primary);
+}
+
+/* Modern Status Badges */
+.badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    display: inline-block;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Green Badges for Positive Traits */
+.badge-yes, .badge-fast {
+    background: rgba(46, 213, 115, 0.15);
+    color: #20bf6b;
+    border: 1px solid rgba(46, 213, 115, 0.4);
+}
+
+/* Red Badges for Negative/Slower Traits */
+.badge-no, .badge-slow {
+    background: rgba(255, 71, 87, 0.15);
+    color: #ff4757;
+    border: 1px solid rgba(255, 71, 87, 0.4);
+}
+/* =========================================
+   Slide 1: Title Slide Floating Icons Only
+   ========================================= */
+
+.floating-icons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 2.5rem;
+}
+
+.title-icon {
+    display: inline-block;
+    animation: bounceIcon 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px rgba(255, 79, 163, 0.6)); /* Pink glow behind emojis */
+}
+
+/* Stagger the animations so they bounce in a wave */
+.title-icon:nth-child(1) { animation-delay: 0s; }
+.title-icon:nth-child(2) { animation-delay: 0.3s; }
+.title-icon:nth-child(3) { animation-delay: 0.6s; }
+.title-icon:nth-child(4) { animation-delay: 0.9s; }
+
+@keyframes bounceIcon {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
