@@ -891,3 +891,52 @@ button:disabled { background: #ccc; cursor: not-allowed; transform: none; }
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-15px); }
 }
+/* =========================================
+   Mobile Responsiveness (Phones & Tablets)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Shrink text and card sizes so they fit on screen */
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.8rem; }
+    p, li, td { font-size: 1rem; }
+    .card { padding: 1.5rem; border-radius: 16px; }
+
+    /* Intro Slide: Stack the text and the image vertically */
+    .intro-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    .floating-icons { justify-content: center; }
+
+    /* Force all multi-column grids to become a single column */
+    .grid-3, .objectives-grid, .symmetric-grid, .examples-grid, .best-practices-grid, .summary-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+
+    /* Adjust the flow diagram so arrows point DOWN on mobile */
+    .crypto-flow-container {
+        flex-direction: column;
+        padding: 1rem;
+    }
+    .flow-arrow-container {
+        transform: rotate(90deg); /* Points arrow downwards */
+        margin: 0.5rem 0;
+    }
+    .flow-box { width: 100%; max-width: 250px; } /* Ensures boxes don't overflow */
+
+    /* Shrink the bottom navigation controls */
+    .controls {
+        width: 90%;
+        justify-content: space-between;
+        padding: 10px 15px;
+        bottom: 10px;
+    }
+    button { padding: 8px 12px; font-size: 0.9rem; }
+    
+    /* Make tables scroll horizontally if they are too wide */
+    .table-container {
+        overflow-x: auto;
+    }
+}
