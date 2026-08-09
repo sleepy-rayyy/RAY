@@ -113,6 +113,32 @@ if (memeVideo && playPauseBtn && muteBtn && seekBar) {
         playPauseBtn.innerText = '▶️';
     });
 }
+// =========================================
+// Mobile Swipe Navigation
+// =========================================
+let touchstartX = 0;
+let touchendX = 0;
+
+document.addEventListener('touchstart', e => {
+    touchstartX = e.changedTouches[0].screenX;
+});
+
+document.addEventListener('touchend', e => {
+    touchendX = e.changedTouches[0].screenX;
+    handleSwipe();
+});
+
+function handleSwipe() {
+    const swipeThreshold = 50; // Minimum distance to count as a swipe
+    if (touchendX < touchstartX - swipeThreshold) {
+        // Swiped Left - Go to Next Slide
+        changeSlide(1); 
+    }
+    if (touchendX > touchstartX + swipeThreshold) {
+        // Swiped Right - Go to Previous Slide
+        changeSlide(-1); 
+    }
+}
 
 // Keyboard Navigation
 document.addEventListener('keydown', (event) => {
